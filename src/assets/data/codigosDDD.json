@@ -1,0 +1,46 @@
+[
+    {
+        "codigoOrigem": "11",
+        "codigosDestinos": [
+            {
+                "codigoDestino": "16",
+                "tarifaMinuto": 1.90
+            },
+            {
+                "codigoDestino": "17",
+                "tarifaMinuto": 1.70
+            },
+            {
+                "codigoDestino": "18",
+                "tarifaMinuto": 0.90
+            }
+        ]
+    },
+    {
+        "codigoOrigem": "16",
+        "codigosDestinos": [
+            {
+                "codigoDestino": "11",
+                "tarifaMinuto": 2.90
+            }
+        ]
+    },
+    {
+        "codigoOrigem": "17",
+        "codigosDestinos": [
+            {
+                "codigoDestino": "11",
+                "tarifaMinuto": 2.70
+            }
+        ]
+    },
+    {
+        "codigoOrigem": "18",
+        "codigosDestinos": [
+            {
+                "codigoDestino": "11",
+                "tarifaMinuto": 1.90
+            }
+        ]
+    }
+]

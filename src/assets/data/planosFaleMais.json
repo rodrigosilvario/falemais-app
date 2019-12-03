@@ -1,0 +1,14 @@
+[
+    {
+        "nomePlano":"FaleMais 30",
+        "quantidadeMinutos": 30
+    },
+    {
+        "nomePlano":"FaleMais 60",
+        "quantidadeMinutos": 60
+    },
+    {
+        "nomePlano":"FaleMais 120",
+        "quantidadeMinutos": 120
+    }
+]
