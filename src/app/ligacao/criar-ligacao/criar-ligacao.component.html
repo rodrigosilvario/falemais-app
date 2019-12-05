@@ -1,40 +1,37 @@
 <div class="container pt-5">
-    <form (ngSubmit)="submeterLigacao(criarLigacao.value)" #criarLigacao="ngForm" class="{'was-validated': !criarLigacao.form.valid}">
+    <form [formGroup]="ligacaoForm" (ngSubmit)="onSubmit()">
         <div class="form-row">
             <div class="form-group col-sm-6">
-                <label for="selecaoOrigem">DDD Origem</label>
-                <select  class="form-control custom-select" id="selecaoOrigem" name="selecaoOrigem" (ngModelChange)="atualizarListaDestino($event.codigoOrigem)"  ngModel required>
-                    <option value="" selected disabled>Selecione</option>
-                    <option *ngFor="let origem of listaCodigo" [ngValue]="origem">{{ origem.codigoOrigem }}</option>
+                <label for="origem">DDD Origem</label>
+                <select  class="form-control custom-select" id="origem" formControlName="origem" (ngModelChange)="atualizarListaDestino($event)">
+                    <option *ngFor="let origem of listaCodigos">{{origem.codigoOrigem}}</option>
                 </select>
             </div>
             <div class="form-group col-sm-6">
-                <label for="selecaoDestino">DDD Destino</label>
-                <select class="form-control custom-select" id="selecaoDestino" name="selecaoDestino" ngModel required>
-                    <option value="" selected disabled>Selecione</option>
-                    <option *ngFor="let destino of listaCodigoDestino" [ngValue]="destino"> {{ destino.codigoDestino }} </option>
+                <label for="destino">DDD Destino</label>
+                <select class="form-control custom-select" id="destino" formControlName="destino">
+                    <option *ngFor="let destino of listaDestinos"> {{destino.codigoDestino}} </option>
                  </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-sm-6">
-                <label for="quantidadeMinutos">Quantidade de Minutos</label>
-                <input type="number" class="form-control" name="quantidadeMinutos" id="quantidadeMinutos" placeholder="Quantidade de Minutos" ngModel required #quantidadeMinutos="ngModel">
-                <div *ngIf="quantidadeMinutos.value==='0' || (quantidadeMinutos.invalid && (quantidadeMinutos.dirty || quantidadeMinutos.touched))" class="invalid-feedback">
-                        Por favor, insira a quantidade de minutos maior que zero.
+                <label for="tempo">Tempo</label>
+                <input type="text" class="form-control" maxlength="10" id="tempo" placeholder="Tempo" formControlName="tempo" [ngClass]="{'is-invalid': (!tempo.pristine && tempo.errors && tempo.errors.menorQueZero) }">
+                <div class="invalid-feedback">
+                  Informe um valor maior do que ZERO.
                 </div>
             </div>
             <div class="form-group col-sm-6">
-                <label for="selecaoPlano">Plano FaleMais</label>
-                <select class="form-control custom-select" id="selecaoPlano" name="selecaoPlano" ngModel required>
-                    <option value="" selected disabled>Selecione</option>
-                    <option *ngFor="let plano of listaPlano" [ngValue]="plano">{{ plano.nomePlano }}</option>
+                <label for="plano">Plano FaleMais</label>
+                <select class="form-control custom-select" id="plano" formControlName="plano">
+                    <option *ngFor="let plano of planos">{{plano}}</option>
                 </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-sm-6">
-                <button type="submit" class="btn btn-success" [disabled]="!criarLigacao.form.valid">Simular</button>
+                <button type="submit" class="btn btn-success" [disabled]="!ligacaoForm.valid">Simular</button>
             </div>
         </div>
     </form>

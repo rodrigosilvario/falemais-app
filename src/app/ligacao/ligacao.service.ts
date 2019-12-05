@@ -6,7 +6,6 @@ import { map, filter } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LigacaoService {
-  listaCodigoOrigem: any[] = []
   
   constructor(
     private http: HttpClient
