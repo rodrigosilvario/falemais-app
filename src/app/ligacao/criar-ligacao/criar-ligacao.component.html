@@ -25,14 +25,37 @@
             <div class="form-group col-sm-6">
                 <label for="plano">Plano FaleMais</label>
                 <select class="form-control custom-select" id="plano" formControlName="plano">
-                    <option *ngFor="let plano of planos">{{plano}}</option>
+                    <option *ngFor="let plano of listaPlanos">{{plano.nomePlano}}</option>
                 </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-sm-6">
-                <button type="submit" class="btn btn-success" [disabled]="!ligacaoForm.valid">Simular</button>
+                <button type="submit" class="btn btn-primary btn-pink" [disabled]="!ligacaoForm.valid">Simular</button>
             </div>
         </div>
     </form>
+    <h3>Última Simulação</h3>
+    <table class="table mb-5">
+        <thead class="thead-dark">
+            <tr> 
+                <th scope="col">Origem</th>
+                <th scope="col">Destino</th>
+                <th scope="col">Qtd. Minutos</th>
+                <th scope="col">Plano</th>
+                <th scope="col">Com FaleMais</th>
+                <th scope="col">Sem FaleMais</th>
+              </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td scope="row">{{novaligacao.origem}}</td>
+                <td>{{novaligacao.destino}}</td>
+                <td>{{novaligacao.tempo}}</td>
+                <td>{{novaligacao.plano}}</td>
+                <td>R$ {{novaligacao.valorComFaleMais}}</td>
+                <td>R$ {{novaligacao.valorSemFaleMais}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

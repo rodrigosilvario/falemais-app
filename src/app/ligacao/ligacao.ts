@@ -4,7 +4,7 @@ export class Ligacao {
         public destino: number,
         public tempo: number,
         public plano: string,
-        public valorComFaleMais?: number,
-        public valorSemFaleMais?: number
+        public valorComFaleMais?,
+        public valorSemFaleMais?
       ) {  }
 }

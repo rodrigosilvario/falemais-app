@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, filter } from 'rxjs/operators';
+import { Ligacao } from './ligacao';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LigacaoService {
+  historicoLigacoes: Ligacao[] = [];
   
   constructor(
     private http: HttpClient
@@ -17,6 +18,11 @@ export class LigacaoService {
 
   getListaPlano(){
     return this.http.get("/assets/data/planosFaleMais.json");
+  }
+
+  adicionarLigacao(novaLigacao: Ligacao){
+    this.historicoLigacoes.push(novaLigacao);
+    console.log(this.historicoLigacoes);
   }
 
 }

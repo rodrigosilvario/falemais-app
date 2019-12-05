@@ -15,9 +15,8 @@ export class CriarLigacaoComponent implements OnInit {
   ligacaoForm: FormGroup;
   listaCodigos: any[];
   listaDestinos: any[];
-  
-  destinos: number[] = [11,16,17,18];
-  planos = ['FaleMais 30', 'FaleMais 60','FaleMais 120'];
+  listaPlanos: any[];
+  novaligacao = new Ligacao(0,0,0,'-',0.00,0.00);
 
 
   constructor(
@@ -26,13 +25,15 @@ export class CriarLigacaoComponent implements OnInit {
     ) {}
 
     onSubmit() {
-      const novaligacao = new Ligacao (
+      this.novaligacao = new Ligacao (
         parseInt(this.ligacaoForm.controls['origem'].value,10),
         parseInt(this.ligacaoForm.controls['destino'].value,10),
         parseInt(this.ligacaoForm.controls['tempo'].value,10),
         this.ligacaoForm.controls['plano'].value
       )
-      console.log(novaligacao);
+      this.novaligacao.valorSemFaleMais = this.calcularValorSemPlano(this.novaligacao);
+      this.novaligacao.valorComFaleMais = this.calcularValorComPlano(this.novaligacao);
+      this.ligacaoService.adicionarLigacao(this.novaligacao);
     }
     
   ngOnInit() {
@@ -42,15 +43,18 @@ export class CriarLigacaoComponent implements OnInit {
         this.listaCodigos = res;
         this.atualizarListaDestino(this.listaCodigos[0].codigoOrigem);
         this.ligacaoForm.patchValue({
-          origem: this.listaCodigos[0].codigoOrigem
+          origem: this.listaCodigos[0].codigoOrigem,
         })
       }
     );
-  //  this.ligacaoService.getListaPlano().subscribe(
-   //   (res : any[]) => {
-     //   this.listaPlano = res
-    //  }
-   // );
+    this.ligacaoService.getListaPlano().subscribe(
+      (res : any[]) => {
+        this.listaPlanos = res
+        this.ligacaoForm.patchValue({
+          plano: this.listaPlanos[0].nomePlano,
+        })
+      }
+    );
 
     
   }
@@ -60,7 +64,7 @@ export class CriarLigacaoComponent implements OnInit {
       origem: new FormControl(''),
       destino: new FormControl(''),
       tempo: new FormControl('', Validators.compose([Validators.required,Validacoes.MaiorQueZero])),
-      plano: new FormControl(this.planos[0])
+      plano: new FormControl('')
     });
   }
 
@@ -77,5 +81,39 @@ export class CriarLigacaoComponent implements OnInit {
     this.ligacaoForm.patchValue({
       destino: this.listaDestinos[0].codigoDestino
     })
+  }
+
+  buscarValorPorMinuto(origem, destino) {
+    for(let i = 0; i < this.listaCodigos.length; i++){
+      if(origem == this.listaCodigos[i].codigoOrigem){
+        for(let y = 0; y < this.listaCodigos[i].codigosDestinos.length; y++){
+            if(destino == this.listaCodigos[i].codigosDestinos[y].codigoDestino){
+              return this.listaCodigos[i].codigosDestinos[y].tarifaMinuto
+            }
+        }
+      }
+    }
+  }
+
+  calcularValorSemPlano(novaLigacao: Ligacao){
+    var valor = novaLigacao.tempo * this.buscarValorPorMinuto(novaLigacao.origem, novaLigacao.destino);
+    return valor.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+  }
+
+  calcularValorComPlano (novaLigacao: Ligacao){
+    for(let i = 0; i < this.listaPlanos.length; i++){
+      if(novaLigacao.plano == this.listaPlanos[i].nomePlano){
+        if(novaLigacao.tempo > this.listaPlanos[i].quantidadeMinutos){
+          const valor = (novaLigacao.tempo - this.listaPlanos[i].quantidadeMinutos) * (this.buscarValorPorMinuto(novaLigacao.origem, novaLigacao.destino) * 1.10);
+          return valor.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        } else 
+          return this.valorZeroFormatado();
+      }
+    }
+  }
+
+  valorZeroFormatado(){
+    let valor: number = 0;
+    return valor.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
   }
 }
