@@ -25,4 +25,8 @@ export class LigacaoService {
     console.log(this.historicoLigacoes);
   }
 
+  getHistoricoLigacoes(){
+    return this.historicoLigacoes;
+  }
+
 }

@@ -1,0 +1,25 @@
+<div class="container pt-5">
+    <h3>Histórico de Simulações</h3>
+        <table class="table mb-5">
+            <thead class="thead-dark">
+                <tr> 
+                    <th scope="col">Origem</th>
+                    <th scope="col">Destino</th>
+                    <th scope="col">Qtd. Minutos</th>
+                    <th scope="col">Plano</th>
+                    <th scope="col">Com FaleMais</th>
+                    <th scope="col">Sem FaleMais</th>
+                  </tr>
+            </thead>
+            <tbody *ngFor="let novaligacao of historicoLigacoes"> 
+                <tr>
+                    <td scope="row">{{novaligacao.origem}}</td>
+                    <td>{{novaligacao.destino}}</td>
+                    <td>{{novaligacao.tempo}}</td>
+                    <td>{{novaligacao.plano}}</td>
+                    <td>R$ {{novaligacao.valorComFaleMais}}</td>
+                    <td>R$ {{novaligacao.valorSemFaleMais}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
